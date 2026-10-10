@@ -1,0 +1,3 @@
+# Optional: required only for .xlsx files (CSV works with the standard library).
+# Pinned for reproducible block tests; the block accepts openpyxl >=3.1,<4.
+openpyxl==3.1.5

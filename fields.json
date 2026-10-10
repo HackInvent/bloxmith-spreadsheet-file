@@ -1,0 +1,153 @@
+[
+  {
+    "key": "operation",
+    "type": "select",
+    "options": ["read", "write"],
+    "help": "read turns the file input into JSON rows; write turns the rows input into a new XLSX or CSV file."
+  },
+  {
+    "key": "allowed_root",
+    "type": "directory",
+    "operation": "read",
+    "help": "Read boundary. Empty uses the application directory; relative input paths start here and resolved files must stay inside."
+  },
+  {
+    "key": "sheet",
+    "help": "Worksheet name (exact, case-sensitive). Read: selects this worksheet; empty uses sheet_index. Write: names the created worksheet; empty uses Sheet1."
+  },
+  {
+    "key": "sheet_index",
+    "type": "integer",
+    "min": 1,
+    "max": 1000,
+    "operation": "read",
+    "help": "Worksheet position (1 = first) used when sheet is empty. Chart sheets are not counted."
+  },
+  {
+    "key": "header_row",
+    "type": "integer",
+    "min": 0,
+    "max": 1000,
+    "operation": "read",
+    "help": "Row holding the column names; rows above it are skipped. 0 means no header: rows are emitted as arrays."
+  },
+  {
+    "key": "format",
+    "type": "select",
+    "options": ["xlsx", "csv"],
+    "operation": "write",
+    "help": "Output format. Reading detects the format from the file extension (.xlsx, .xlsm, .csv, .tsv, .txt)."
+  },
+  {
+    "key": "output_directory",
+    "type": "directory",
+    "operation": "write",
+    "help": "Existing destination directory. Empty uses this node's persistent storage (spreadsheets folder). Relative paths start at the application directory."
+  },
+  {
+    "key": "file_name",
+    "operation": "write",
+    "help": "File name; the format extension is added. Placeholders: {date} and {time} (UTC), {unique} (random)."
+  },
+  {
+    "key": "overwrite",
+    "type": "boolean",
+    "operation": "write",
+    "help": "Replace an existing regular file with the same name. Off: an existing name fails and nothing is replaced."
+  },
+  {
+    "key": "columns",
+    "type": "json",
+    "rows": 2,
+    "operation": "write",
+    "help": "Column order, e.g. [\"id\",\"name\"]. Other keys are left out and reported. Empty keeps the order in which keys first appear."
+  },
+  {
+    "key": "header",
+    "type": "boolean",
+    "operation": "write",
+    "help": "Write the column names as the first row."
+  },
+  {
+    "key": "on_error",
+    "type": "select",
+    "options": ["fail", "route"],
+    "help": "fail stops this node with an error. route publishes a content-free error document on the error port instead."
+  },
+  {
+    "key": "skip_empty_rows",
+    "type": "boolean",
+    "operation": "read",
+    "advanced": true,
+    "help": "Leave out rows without any value; they are counted in the report."
+  },
+  {
+    "key": "on_limit",
+    "type": "select",
+    "options": ["fail", "truncate"],
+    "operation": "read",
+    "advanced": true,
+    "help": "When max_rows or max_columns is exceeded: fail, or keep the first rows/columns and flag the truncation in the report."
+  },
+  {
+    "key": "allow_macro_workbooks",
+    "type": "boolean",
+    "operation": "read",
+    "advanced": true,
+    "help": "Accept .xlsm or macro-carrying workbooks. Macros are never run or kept; only cell values are read."
+  },
+  {
+    "key": "formula_guard",
+    "type": "select",
+    "options": ["escape", "reject", "off"],
+    "operation": "write",
+    "advanced": true,
+    "help": "CSV only. escape prefixes text starting with = + - @ tab or carriage return with an apostrophe; reject fails; off writes it unchanged."
+  },
+  {
+    "key": "delimiter",
+    "type": "select",
+    "options": ["comma", "semicolon", "tab", "pipe"],
+    "advanced": true,
+    "help": "CSV field separator for reading and writing. It is never guessed."
+  },
+  {
+    "key": "encoding",
+    "type": "select",
+    "options": ["utf-8-sig", "utf-8", "latin-1", "cp1252"],
+    "advanced": true,
+    "help": "CSV text encoding. utf-8-sig accepts an optional BOM when reading and writes one, as spreadsheet software expects."
+  },
+  {
+    "key": "max_rows",
+    "type": "integer",
+    "min": 1,
+    "max": 100000,
+    "advanced": true,
+    "help": "Maximum data rows read, or rows written."
+  },
+  {
+    "key": "max_columns",
+    "type": "integer",
+    "min": 1,
+    "max": 1024,
+    "advanced": true,
+    "help": "Maximum columns per row."
+  },
+  {
+    "key": "max_bytes",
+    "type": "integer",
+    "min": 1024,
+    "max": 52428800,
+    "advanced": true,
+    "help": "Maximum size in bytes of the source file, the rows input and the generated file."
+  },
+  {
+    "key": "timeout_sec",
+    "type": "integer",
+    "min": 1,
+    "max": 240,
+    "advanced": true,
+    "help": "Deadline for one operation, in seconds. Opening a workbook is not interruptible."
+  }
+]

@@ -1,0 +1,188 @@
+{
+  "kind": "spreadsheet_file",
+  "version": "0.1.0",
+  "title": "Spreadsheet File",
+  "description": "Read XLSX/CSV files into JSON rows and write JSON rows to XLSX/CSV.",
+  "repository_url": "https://github.com/HackInvent/bloxmith-spreadsheet-file",
+  "bloxsmith_compatibility": [
+    "1.0.9"
+  ],
+  "tested_with_bloxsmith": "1.0.9",
+  "prerequisites": [
+    {
+      "type": "python_distribution",
+      "name": "openpyxl",
+      "version": ">=3.1,<4"
+    },
+    {
+      "type": "manual",
+      "name": "openpyxl is needed for .xlsx/.xlsm files only; CSV uses the Python standard library. Writing needs a POSIX filesystem with hard links."
+    }
+  ],
+  "locales": {
+    "en": "locales/en.json",
+    "fr": "locales/fr.json"
+  },
+  "ports": {
+    "inputs": [
+      {
+        "id": 1,
+        "name": "file",
+        "title": "file",
+        "accepts": [
+          "file/path",
+          "text/plain",
+          "application/json",
+          "message/*"
+        ],
+        "multiplicity": "one",
+        "required": false,
+        "execution_requirement": "not_required_for_execution"
+      },
+      {
+        "id": 2,
+        "name": "rows",
+        "title": "rows",
+        "accepts": [
+          "application/json",
+          "text/plain",
+          "message/*"
+        ],
+        "multiplicity": "one",
+        "required": false,
+        "execution_requirement": "not_required_for_execution"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 1,
+        "name": "rows",
+        "title": "rows",
+        "emits": [
+          "application/json",
+          "message/*"
+        ],
+        "multiplicity": "many"
+      },
+      {
+        "id": 2,
+        "name": "file",
+        "title": "file",
+        "emits": [
+          "file/path",
+          "message/*"
+        ],
+        "multiplicity": "many"
+      },
+      {
+        "id": 3,
+        "name": "report",
+        "title": "report",
+        "emits": [
+          "application/json",
+          "message/*"
+        ],
+        "multiplicity": "many"
+      },
+      {
+        "id": 4,
+        "name": "error",
+        "title": "error",
+        "emits": [
+          "application/json",
+          "message/*"
+        ],
+        "multiplicity": "many"
+      }
+    ]
+  },
+  "config": {
+    "operation": "read",
+    "on_error": "fail",
+    "allowed_root": "",
+    "sheet": "",
+    "sheet_index": 1,
+    "header_row": 1,
+    "skip_empty_rows": true,
+    "on_limit": "fail",
+    "allow_macro_workbooks": false,
+    "format": "xlsx",
+    "output_directory": "",
+    "file_name": "rows-{date}-{unique}",
+    "overwrite": false,
+    "columns": [],
+    "header": true,
+    "formula_guard": "escape",
+    "delimiter": "comma",
+    "encoding": "utf-8-sig",
+    "max_rows": 10000,
+    "max_columns": 256,
+    "max_bytes": 20971520,
+    "timeout_sec": 60
+  },
+  "port_capabilities": {
+    "can_add_inputs": false,
+    "can_add_outputs": false
+  },
+  "runtime": {
+    "initial_state": "waiting",
+    "runtime_executable": true,
+    "active_worker": true,
+    "centralized_executor": "generic",
+    "centralized_dependency_mode": "any_event",
+    "active_execution_policy": "on_each_event",
+    "file_browser": true
+  },
+  "ui_assets": {
+    "modal": [
+      {
+        "kind": "css",
+        "path": "assets/css/properties.css"
+      },
+      {
+        "kind": "css",
+        "path": "assets/css/settings.css"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/properties.js"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/settings.js"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/block_modal.js"
+      }
+    ],
+    "inspector_panel": [
+      {
+        "kind": "css",
+        "path": "assets/css/properties.css"
+      },
+      {
+        "kind": "css",
+        "path": "assets/css/settings.css"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/properties.js"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/settings.js"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/inspector_panel.js"
+      }
+    ],
+    "node_card": [
+      {
+        "kind": "css",
+        "path": "assets/css/node_card.css"
+      }
+    ]
+  }
+}
